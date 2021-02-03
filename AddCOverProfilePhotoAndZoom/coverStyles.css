@@ -1,0 +1,15 @@
+.separateProfileFlex {
+    display: flex; 
+    flex-direction: row-reverse; 
+    justify-content:space-between
+  }
+
+  @media only screen and (max-width: 960px) {
+    .separateProfileFlex {
+        /* display: flex;  */
+        flex-direction: column; 
+        /* width:fit-content; */
+        /* justify-content:space-between */
+      }
+    }
+
