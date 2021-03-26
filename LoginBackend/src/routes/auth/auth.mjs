@@ -5,7 +5,11 @@ import passport from "passport";
 
 const router = Router();
 
-router.get("/login",(req,res) => {res.send("Hello World!")
+router.get("/",(req,res) => 
+{res.send("Welcome!")
+    });
+router.get("/login",(req,res) => 
+{res.send("Hello World!")
     });
 
 export default router;

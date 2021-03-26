@@ -1,5 +1,5 @@
 import routes from "./routes/auth/auth.mjs";
-import * as cors from "cors";
+import cors from "cors";
 import * as helmet from "helmet";
 import express from 'express';
 import bodyParser from "body-parser";
@@ -26,49 +26,45 @@ const app = express();
 //         }
 //     }
 // }));
-// const options = {
-//     allowedHeaders: [
-//       'Origin',
-//       'X-Requested-With',
-//       'Content-Type',
-//       'Accept',
-//       'X-Access-Token',
-//     ],
-//     credentials: true,
-//     methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
-//     // origin: new RegExp('^(https?://.+\.(namastefit|raawmove|stagerapp)\.(one|com|tk)(?::\d{1,5})?)$'),
-//     // origin: new RegExp(`^(https?://.+\.(namastefit|raawmove|stagerapp)\.(one|com|tk)(?::\d{1,5})?)$`),
-//     // origin: "https://pthakur3.namastefit.one/",
-//     // origin: "^(https?://.+\.namastefit\.one(?::\d{1,5})?)$",
-//     origin: (origin, callback)=>{
-//         console.log("Origin is ", origin);
-//         if(origin === undefined || origin === null) {
-//             // no origin value so assuming same origin calls
-//             callback(null, true);
-//         }else {
-//             let matches = new RegExp(`^(https?://.+\.(namastefit)\.(one)(?::\d{1,5})?)$`).exec(origin);
-//             console.log("main domain matches", matches);
-//             if(matches && matches.length){
-//                 console.log("Matches main domain");
-//                 callback(null, true);
-//             } else {
-//                 console.log("checking allowed domains");
-//                 let allowedDomains = process.env.CUSTOM_DOMAINS;
-//                 console.log("allowedDomains", allowedDomains);
-//                 matches = new RegExp(allowedDomains.replace(',', '|')).exec(origin);
-//                 console.log("allowed domain check", matches);
-//                 if(matches && matches.length){
-//                     console.log("Matches allowed domain");
-//                     callback(null, true);
-//                 }else {
-//                     callback(new Error('Not allowed by CORS'));
-//                 }
-//             }
-//         }
-//     },
-//     preflightContinue: false,
-//   };
-// app.use(cors(options));
+const options = {
+    allowedHeaders: [
+      'Origin',
+      'X-Requested-With',
+      'Content-Type',
+      'Accept',
+      'X-Access-Token',
+    ],
+    credentials: true,
+    methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+    origin: (origin, callback)=>{
+        console.log("Origin is ", origin);
+        if(origin === undefined || origin === null) {
+            // no origin value so assuming same origin calls
+            callback(null, true);
+        }else {
+            let matches = new RegExp(`^(http?://.+\.(127.0.0.1)(?::\d{1,5})?)$`).exec(origin);
+            console.log("main domain matches", matches);
+            if(matches && matches.length){
+                console.log("Matches main domain");
+                callback(null, true);
+            } else {
+                console.log("checking allowed domains");
+                let allowedDomains = process.env.CUSTOM_DOMAINS;
+                console.log("allowedDomains", allowedDomains);
+                matches = new RegExp(allowedDomains.replace(',', '|')).exec(origin);
+                console.log("allowed domain check", matches);
+                if(matches && matches.length){
+                    console.log("Matches allowed domain");
+                    callback(null, true);
+                }else {
+                    callback(new Error('Not allowed by CORS'));
+                }
+            }
+        }
+    },
+    preflightContinue: false,
+  };
+app.use(cors(options));
 app.use(cookieParser());
 
 app.use(express.json());
